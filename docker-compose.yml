@@ -1,0 +1,10 @@
+version: '3.4'
+
+services:
+  http-server:
+    image: http-server
+    build: .
+    environment:
+      NODE_ENV: production
+    ports:
+      - 3000
