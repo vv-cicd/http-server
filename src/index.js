@@ -1,13 +1,29 @@
-const http = require('http');
+'use strict';
 
-const port = 3000;
+const express = require('express');
+const axios = require('axios');
+const {getUser} = require('./utils')
 
-const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.end('Hello World');
+// Constants
+const PORT = 8082;
+const HOST = 'localhost';
+
+
+// App
+const app = express();
+app.get('/:id', async (req, res) => {
+  const {id} = req.params;
+  try{
+    
+    const user = getUser(id);
+    //const details = await axios.post('/details/:id', user)
+    res.status(200).send(user);
+  }
+  catch(error){
+    console.log("!!!!!",error.message);
+    res.status(500).send({message:error.message});
+  }
 });
 
-server.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}/`);
-});
+app.listen(PORT);
+console.log(`Running on http://${HOST}:${PORT}`);
